@@ -20,6 +20,7 @@ function App() {
   const [filteredTargets, setFilteredTargets] = useState<Targets>([]);
   const [connected, setConnected] = useState<boolean>(false);
   const [envVariables, setEnvVariables] = useState<boolean | null>(null);
+  const [errorModal, setErrorModal] = useState<string>("");
 
   useEffect(() => {
     if (envVariables === null) {
@@ -28,10 +29,18 @@ function App() {
       });
     }
     if (envVariables === true && connected === false) {
-      console.log("connecting to boundary")
-      ConnectToBoundary().then((result) => {
-        setConnected(result);
-      });
+      console.log("connecting to boundary");
+      ConnectToBoundary()
+        .then((result) => {
+          console.log({ result });
+          if (result.success === false) {
+            setErrorModal(result.message);
+          }
+          setConnected(result.success);
+        })
+        .catch((err) => {
+          console.log({ err });
+        });
     }
 
     if (availableTargets.length === 0 && connected === true) {
@@ -56,6 +65,7 @@ function App() {
         setSearch={setSearch}
         setEnvVariables={setEnvVariables}
       />
+      {errorModal && <h1>{}</h1>}
       <TargetList
         availableTargets={
           search.length > 0 ? filteredTargets : availableTargets

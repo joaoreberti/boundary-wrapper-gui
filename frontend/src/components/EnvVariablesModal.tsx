@@ -10,13 +10,17 @@ export default function EnvVariablesModal({
   setEnvVariables: (val: boolean) => void;
 }>) {
   const cancelButtonRef = useRef(null);
-  const [boundaryPath, setBoundaryPath] = useState("");
+  const [boundaryAddress, setBoundaryAddress] = useState("");
   const [dbeaverPath, setDbeaverPath] = useState("");
+  const [boundaryPath, setBoundaryPath] = useState("");
+  const [error, setError] = useState("");
 
   const saveInputs = async () => {
-    console.log(boundaryPath, dbeaverPath);
-    StoreEnvs(boundaryPath, dbeaverPath).then((result) => {
-      if (result) {
+    console.log(boundaryAddress, dbeaverPath, boundaryAddress);
+    StoreEnvs(boundaryAddress, dbeaverPath, boundaryPath).then((result) => {
+      console.log("store envs", result.message);
+      setError(result.message);
+      if (result.success === true) {
         setEnvVariables(true);
       } else {
         console.log("error saving envs");
@@ -62,23 +66,41 @@ export default function EnvVariablesModal({
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Set env vars
+                      {error ?? "Set env vars"}
                     </Dialog.Title>
                   </div>
                   <div className="mt-3 text-center sm:mt-5">
                     <div>
                       <span>
-                        Boundary:{" "}
+                        Boundary Address:{" "}
+                        <input
+                          onChange={(e) => {
+                            setBoundaryAddress(e.target.value);
+                          }}
+                          type="text"
+                          value={boundaryAddress}
+                          name={"boundary-address"}
+                          id={"boundary-address"}
+                          className="flex-1 border-8 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                          placeholder="boundary address"
+                        />
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-center sm:mt-5">
+                    <div>
+                      <span>
+                        Boundary-cli Path (```which boundary```):{" "}
                         <input
                           onChange={(e) => {
                             setBoundaryPath(e.target.value);
                           }}
                           type="text"
                           value={boundaryPath}
-                          name={"boundary-address"}
-                          id={"boundary-address"}
+                          name={"boundary-path"}
+                          id={"boundary-path"}
                           className="flex-1 border-8 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                          placeholder="boundary address"
+                          placeholder="boundary path"
                         />
                       </span>
                     </div>

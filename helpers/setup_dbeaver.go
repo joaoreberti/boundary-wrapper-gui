@@ -48,7 +48,7 @@ type Config struct {
 
 func SetupDBeaver(credentials Credentials, dbname string) {
 	fmt.Println("Setting up DBeaver")
-	path := os.Getenv("DBEAVER_CONFIG_PATH") + "/data-sources.json"
+	path := GetEnvByKey("DBEAVER_CONFIG_PATH") + "/data-sources.json"
 
 	//retrieve the dbeaver connection file
 	jsonFile, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0644)

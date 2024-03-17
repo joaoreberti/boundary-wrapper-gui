@@ -3,7 +3,6 @@ package helpers
 import (
 	"bufio"
 	"fmt"
-	"os"
 	"os/exec"
 	"strings"
 )
@@ -30,7 +29,7 @@ type Target struct {
 }
 
 func GetAllTargets() []Target {
-	cmd := exec.Command("boundary", "targets", "list", "--recursive", "-addr="+os.Getenv("BOUNDARY_ADDRESS"))
+	cmd := exec.Command(GetEnvByKey("BOUNDARY_PATH"), "targets", "list", "--recursive", "-addr="+GetEnvByKey("BOUNDARY_ADDRESS"))
 
 	// Get a pipe to read from standard out
 	r, _ := cmd.StdoutPipe()

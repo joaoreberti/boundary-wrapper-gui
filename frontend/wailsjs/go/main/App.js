@@ -18,8 +18,8 @@ export function SetupDBeaverConfig(arg1, arg2) {
   return window['go']['main']['App']['SetupDBeaverConfig'](arg1, arg2);
 }
 
-export function StoreEnvs(arg1, arg2) {
-  return window['go']['main']['App']['StoreEnvs'](arg1, arg2);
+export function StoreEnvs(arg1, arg2, arg3) {
+  return window['go']['main']['App']['StoreEnvs'](arg1, arg2, arg3);
 }
 
 export function ValidateEnv() {

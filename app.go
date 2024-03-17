@@ -4,7 +4,6 @@ import (
 	"boundary-wrapper/helpers"
 	"context"
 	"fmt"
-	"os"
 )
 
 var targets = []helpers.Target{}
@@ -29,28 +28,27 @@ func (a *App) startup(ctx context.Context) {
 }
 
 func (a *App) ValidateEnv() bool {
-
-	dbeaverPath := os.Getenv("DBEAVER_CONFIG_PATH")
-	if dbeaverPath == "" {
-		fmt.Println("Error loading .env file")
-		return false
-	}
-
-	boundaryPath := os.Getenv("BOUNDARY_ADDRESS")
-	if boundaryPath == "" {
-		fmt.Println("Error loading .env file")
-		return false
-	}
-	return true
+	return helpers.CheckEnv()
 }
 
-func (a *App) StoreEnvs(boundaryAddress string, dbeaverPath string) bool {
-	return helpers.StoreVariables(boundaryAddress, dbeaverPath)
+func (a *App) StoreEnvs(boundaryAddress string, dbeaverPath string, boundaryPath string) map[string]interface{} {
+
+	status, msg := helpers.StoreVariables(boundaryAddress, dbeaverPath, boundaryPath)
+	result := map[string]interface{}{
+		"success": status,
+		"message": msg,
+	}
+	return result
 
 }
 
-func (a *App) ConnectToBoundary() bool {
-	return helpers.AuthenticateIfNeeded()
+func (a *App) ConnectToBoundary() map[string]interface{} {
+	status, msg := helpers.AuthenticateIfNeeded()
+	result := map[string]interface{}{
+		"success": status,
+		"message": msg,
+	}
+	return result
 }
 
 func (a *App) GetAvailableTargets() []helpers.Target {
