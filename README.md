@@ -61,3 +61,7 @@ When running dev or prod you'll be prompted for 3 paths:
 - DBeaver (needs to be installed)
 - boundary cli (needs to be installed)
 - boundary address
+
+## App installation
+
+- Unzip and copy `boundary-wrapper.app` into Applications folder
