@@ -4,10 +4,9 @@ import (
 	"boundary-wrapper/helpers"
 	"context"
 	"fmt"
+	"os"
 )
 
-var BoundaryAccess = ""
-var DBeaverConfigPath = ""
 var targets = []helpers.Target{}
 var credentials = helpers.Credentials{}
 
@@ -26,23 +25,36 @@ func NewApp() *App {
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 	// helpers.Authenticate_if_needed()
+
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
+func (a *App) ValidateEnv() bool {
+
+	dbeaverPath := os.Getenv("DBEAVER_CONFIG_PATH")
+	if dbeaverPath == "" {
+		fmt.Println("Error loading .env file")
+		return false
+	}
+
+	boundaryPath := os.Getenv("BOUNDARY_ADDRESS")
+	if boundaryPath == "" {
+		fmt.Println("Error loading .env file")
+		return false
+	}
+	return true
 }
 
-func (a *App) StoreBoundaryAccess(add string) {
-	BoundaryAccess = add
+func (a *App) StoreEnvs(boundaryAddress string, dbeaverPath string) bool {
+	return helpers.StoreVariables(boundaryAddress, dbeaverPath)
+
 }
 
-func (a *App) StoreDBeaverConfigPath(path string) {
-	DBeaverConfigPath = path
+func (a *App) ConnectToBoundary() bool {
+	return helpers.AuthenticateIfNeeded()
 }
 
 func (a *App) GetAvailableTargets() []helpers.Target {
-	targets = helpers.Get_all_targets()
+	targets = helpers.GetAllTargets()
 	return targets
 }
 
@@ -52,7 +64,7 @@ func (a *App) ConnectToTarget(targetId string) (helpers.Credentials, error) {
 
 	for _, t := range targets {
 		if t.ID == targetId {
-			c := helpers.Connect_to_target(t)
+			c := helpers.ConnectToTarget(t)
 			return c, nil
 		}
 	}
@@ -60,6 +72,6 @@ func (a *App) ConnectToTarget(targetId string) (helpers.Credentials, error) {
 }
 
 func (a *App) SetupDBeaverConfig(credendtials helpers.Credentials, dbname string) bool {
-	helpers.Setup_dbeaver(credendtials, dbname)
+	helpers.SetupDBeaver(credendtials, dbname)
 	return true
 }

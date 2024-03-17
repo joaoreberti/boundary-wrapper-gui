@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func Retrieve_user_input() (string, error) {
+func RetrieveUserInput() (string, error) {
 
 	reader := bufio.NewReader(os.Stdin)
 

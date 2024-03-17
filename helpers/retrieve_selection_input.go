@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func Retrieve_selection_input() (int, error) {
+func RetrieveSelectionInput() (int, error) {
 	reader := bufio.NewReader(os.Stdin)
 	option, err := reader.ReadString('\n')
 	if err != nil {

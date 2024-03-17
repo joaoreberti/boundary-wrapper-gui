@@ -34,7 +34,7 @@ type Credentials struct {
 	Port     string
 }
 
-func Connect_to_target(target Target) Credentials {
+func ConnectToTarget(target Target) Credentials {
 	credentials := Credentials{}
 	cmd := exec.Command("boundary", "connect", "-target-id="+target.ID, "-addr="+os.Getenv("BOUNDARY_ADDRESS"))
 	// Get a pipe to read from standard out

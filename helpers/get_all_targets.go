@@ -29,7 +29,7 @@ type Target struct {
 	// AuthorizedActions []string
 }
 
-func Get_all_targets() []Target {
+func GetAllTargets() []Target {
 	cmd := exec.Command("boundary", "targets", "list", "--recursive", "-addr="+os.Getenv("BOUNDARY_ADDRESS"))
 
 	// Get a pipe to read from standard out

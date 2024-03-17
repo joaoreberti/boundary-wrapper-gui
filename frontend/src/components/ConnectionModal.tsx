@@ -10,7 +10,7 @@ export type Credentials = {
   ID?: string;
 };
 
-export default function Modal({
+export default function ConnectionModal({
   currentTarget,
   useModal,
   setModal,

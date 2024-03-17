@@ -46,7 +46,7 @@ type Config struct {
 	ConnectionTypes map[string]ConnectionType `json:"connection-types"`
 }
 
-func Setup_dbeaver(credentials Credentials, dbname string) {
+func SetupDBeaver(credentials Credentials, dbname string) {
 	fmt.Println("Setting up DBeaver")
 	path := os.Getenv("DBEAVER_CONFIG_PATH") + "/data-sources.json"
 

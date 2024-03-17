@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Targets } from "../App";
-import Modal, { Credentials } from "./Modal";
+import ConnectionModal, { Credentials } from "./ConnectionModal";
 
 export default function TargetList({
   availableTargets,
@@ -53,7 +53,7 @@ export default function TargetList({
         ))}
       </ul>
       {useModal && (
-        <Modal
+        <ConnectionModal
           useModal={useModal}
           setModal={setModal}
           currentTarget={currentTarget}

@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-func Authenticate_if_needed() {
+func AuthenticateIfNeeded() bool {
 
 	cmd := exec.Command("boundary", "authenticate", "-addr="+os.Getenv("BOUNDARY_ADDRESS"))
 	cmd.Stdout = os.Stdout
@@ -15,6 +15,12 @@ func Authenticate_if_needed() {
 	err := cmd.Run()
 	if err != nil {
 		fmt.Println("Error executing command:", err)
-		return
+		return false
 	}
+
+	cmd.Wait()
+
+	fmt.Println("Authenticated successfully")
+	return true
+
 }
